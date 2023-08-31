@@ -1,5 +1,7 @@
 package com.jip.noteapp;
 
+import static com.jip.noteapp.constant.Constant.EDITING_KEY;
+
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
@@ -8,6 +10,7 @@ import androidx.lifecycle.ViewModelProvider;
 
 import android.annotation.SuppressLint;
 import android.os.Bundle;
+import android.os.PersistableBundle;
 import android.view.View;
 import android.widget.EditText;
 
@@ -25,6 +28,7 @@ public class EditActivity extends AppCompatActivity {
     FloatingActionButton floatingActionButton,delete_icon;
     Toolbar toolbar;
     boolean newnote;
+    boolean isEditing;
     @SuppressLint("MissingInflatedId")
     @Override
     protected void onCreate(Bundle savedInstanceState)
@@ -63,6 +67,18 @@ public class EditActivity extends AppCompatActivity {
                 deleteNote();
             }
         });
+
+        if (savedInstanceState!=null)
+        {
+            isEditing=savedInstanceState.getBoolean(EDITING_KEY);
+        }
+    }
+
+    @Override
+    public void onSaveInstanceState(@NonNull Bundle outState)
+    {
+        outState.putBoolean(EDITING_KEY,true);
+        super.onSaveInstanceState(outState);
     }
 
     private void deleteNote()
@@ -76,7 +92,11 @@ public class EditActivity extends AppCompatActivity {
             @Override
             public void onChanged(@NonNull NoteEntity noteEntity) {
 
-                edit_notes.setText(Objects.requireNonNull(noteEntity.getText()));
+                if (!isEditing)
+                {
+                    edit_notes.setText(Objects.requireNonNull(noteEntity.getText()));
+
+                }
             }
         };
 
