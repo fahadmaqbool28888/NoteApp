@@ -60,4 +60,9 @@ public class EditactivityViewModel extends AndroidViewModel {
         }
         appRepository.setnoteandexist(noteEntity);
     }
+
+    public void deleteNote()
+    {
+        appRepository.deleteNote(entityMutableLiveData.getValue());
+    }
 }

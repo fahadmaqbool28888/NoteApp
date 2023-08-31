@@ -22,8 +22,9 @@ public class EditActivity extends AppCompatActivity {
 
     EditText edit_notes;
     EditactivityViewModel viewModel;
-    FloatingActionButton floatingActionButton;
+    FloatingActionButton floatingActionButton,delete_icon;
     Toolbar toolbar;
+    boolean newnote;
     @SuppressLint("MissingInflatedId")
     @Override
     protected void onCreate(Bundle savedInstanceState)
@@ -31,8 +32,7 @@ public class EditActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_edit);
 
-
-
+        delete_icon=findViewById(R.id.delete);
         floatingActionButton=findViewById(R.id.update);
         edit_notes=findViewById(R.id.edit_notes);
 
@@ -45,6 +45,29 @@ public class EditActivity extends AppCompatActivity {
                 finish();
             }
         });
+
+        if (!newnote)
+        {
+            delete_icon.setVisibility(View.GONE);
+
+        }
+        else
+        {
+            delete_icon.setVisibility(View.VISIBLE);
+        }
+
+        delete_icon.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view)
+            {
+                deleteNote();
+            }
+        });
+    }
+
+    private void deleteNote()
+    {
+        viewModel.deleteNote(); finish();
     }
 
     private void intViewModel()
@@ -65,10 +88,12 @@ public class EditActivity extends AppCompatActivity {
         if (bundle==null)
         {
         setTitle("New Note");
+        newnote=false;
         }
         else
         {
             setTitle("Edit Note");
+            newnote=true;
             int id=bundle.getInt(Constant.NOTE_ID_KEY);
 
             viewModel.fetechNote(id);
