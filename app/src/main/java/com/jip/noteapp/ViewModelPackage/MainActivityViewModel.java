@@ -32,4 +32,9 @@ public class MainActivityViewModel extends AndroidViewModel {
     {
         appRepository.deleteAllNotes();
     }
+
+    public void deleteNote(NoteEntity noteEntity)
+    {
+        appRepository.deleteNote(noteEntity);
+    }
 }

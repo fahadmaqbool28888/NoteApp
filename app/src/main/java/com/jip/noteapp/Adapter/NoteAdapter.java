@@ -64,6 +64,11 @@ public class NoteAdapter extends RecyclerView.Adapter<NoteAdapter.NoteHolder>
         });
     }
 
+  public  NoteEntity getnote(int position)
+    {
+        return noteEntities.get(position);
+    }
+
     @Override
     public int getItemCount()
     {

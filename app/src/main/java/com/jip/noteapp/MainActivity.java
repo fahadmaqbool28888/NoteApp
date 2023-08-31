@@ -6,6 +6,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
+import androidx.recyclerview.widget.ItemTouchHelper;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -106,6 +107,27 @@ public class MainActivity extends AppCompatActivity {
         LinearLayoutManager linearLayoutManager=new LinearLayoutManager(this);
         rycView.setLayoutManager(linearLayoutManager);
 
+        ItemTouchHelper itemTouchHelper=new ItemTouchHelper(new ItemTouchHelper.SimpleCallback(0,ItemTouchHelper.LEFT) {
+            @Override
+            public boolean onMove(@NonNull RecyclerView recyclerView, @NonNull RecyclerView.ViewHolder viewHolder, @NonNull RecyclerView.ViewHolder target) {
+                return false;
+            }
+
+            @Override
+            public void onSwiped( RecyclerView.ViewHolder viewHolder, int direction) {
+
+                deleteNote(noteAdapter.getnote(viewHolder.getAdapterPosition()));
+            }
+        });
+
+        itemTouchHelper.attachToRecyclerView(rycView);
+
+    }
+
+    private void deleteNote(NoteEntity getnote)
+    {
+        viewModelMain.deleteNote(getnote);
+        Toast.makeText(MainActivity.this,"Note Deleted",Toast.LENGTH_LONG).show();
     }
 
     @Override
